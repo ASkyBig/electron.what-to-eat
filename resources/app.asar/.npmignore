@@ -1,0 +1,16 @@
+/build
+/spec
+/tmp
+*.coffee
+*.log
+*~
+*.swp
+.DS_Store
+.node-version
+.npmignore
+npm-debug.log
+/test
+.gitattributes
+appveyor.yml
+.travis.yml
+coffeelint.json

@@ -1,0 +1,9 @@
+/node_modules
+/build
+/tmp
+*.swp
+*.log
+*~
+.DS_Store
+.node-version
+npm-debug.log
