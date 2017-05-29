@@ -1,11 +1,106 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello World!</title>
+    <title> yangjian</title>
+    <style type="text/css">
+    	body{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+            *{margin:0;padding:0;font-size:30px;}
+            h1{padding:0 20px;border-bottom:1px solid #eee;height: 40px;}
+            li{list-style:none;height:40px;}
+            .main{width: 1000px;height: 800px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+            #outer{height:471px;width:400px;border:1px solid black;display:flex;flex-direction:column;}
+            .myFood{width:400px;height:434px;border:1px solid red;display:flex;flex-direction:column;overflow:hidden}
+            .myFood h1{text-align:left;}
+            ul li{text-align:center;padding:10px;border:1px solid black;}
+            .myFood li.lieven{background-color:#F0F2F3;}
+            #in{width:256px;}
+    </style>
+   <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+     <script type="text/javascript" src="./jquery-1.11.3.js"></script>
+     <script>if (window.module) module = window.module;</script>
   </head>
   <body>
-    <h1>Hello Yangjian!</h1>
-    We are using io.js <script>document.write(process.version)</script>
-    and Electron <script>document.write(process.versions['electron'])</script>.
+    <h1>这是我的第一个桌面应用程序！</h1>
+    <div class="main">
+        <div id="outer" >
+                <h1>今天吃啥呢？</h1>
+            <div class="myFood">
+                <ul>
+                    <li>西瓜</li>
+                    <li>苹果</li>
+                    <li>馄饨</li>
+                    <li>面条</li>
+                    <li>煎饼</li>
+                    <li>泡面</li>
+                    <li>水果</li>
+                    <li>炒饭</li>
+                    <li>香蕉</li>
+                    <li>米线</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+        <div>
+            <!-- <input id="in" placeholder="输入速度(0-100)"> -->
+            <button id="submit" >开始</button>
+            <button id="stop">停止</button>
+        </div>
+    </div>
+   
+    <script>
+     $(document).ready(function(){
+            $(".myFood li:even").addClass("lieven");
+        });
+    		var id;
+            $.fn.chooseFood = function(option){    //在我博客有关于它的介绍
+            var myDefault = {"speed":10,"rowHeight":62};
+            var opts = $.extend({},myDefault,option);
+            var myId;
+            this.each(function(){    //each()方法也可以找到
+                var _this = $(this);  
+                var myRowHeight = opts["rowHeight"];
+                var mySpeed = opts["speed"];
+                myId = setInterval(function(){
+                    myMarquee(_this,myRowHeight);
+                },opts.speed);
+                id = myId;
+            });
+            function myMarquee(obj,rowHeight){
+                //console.log(1);
+                obj.find("ul").animate({
+                marginTop:"-=5"//这里可以修改每一次执行变化的像素值
+                },0,function(){
+                    var s = Math.abs(parseInt($(this).css("margin-top")));
+                    if(s >= rowHeight){
+                        $(this).find("li").slice(0,1).appendTo($(this));
+                        $(this).css("margin-top",0);
+                    }
+                });
+
+            }
+        }
+
+        document.getElementById("submit").addEventListener("click",function(){
+            clearInterval(id);
+            /*let va = $("#in").val();
+            if(/^\d{1,2}$/.test(va)){    //正则判断输入合法性
+                $(".myFood").chooseFood({speed:va?va:0,rowHeight:62});
+            }
+            else{
+                alert("请输入0-100的数字");
+            }*/
+            $(".myFood").chooseFood({speed:0,rowHeight:62});
+
+        });
+        document.getElementById("stop").addEventListener("click",function(){
+            clearInterval(id);
+            if(Math.abs(parseInt($(".myFood ul").css("margin-top")))>10){
+                alert("今天吃："+$(".myFood ul").find("li")[1].innerHTML);
+            }
+            else alert("今天吃："+$(".myFood ul").find("li")[0].innerHTML)
+
+        });
+       
+    </script>
   </body>
 </html>
